@@ -1,19 +1,15 @@
 /** @jsx React.DOM */
+/* jslint browser: true */
+'use strict';
 
-var React = window.React = require('react'),
-    Timer = require('./ui/Timer'),
-    FilterableProductTable = require('./ui/FilterableProductTable/component'),
-    mountNode = document.getElementById('app'),
-    PRODUCTS = require('./service/fixtures/products');
+var React = window.React = require('react');
+var mountNode = window.document.getElementById('app');
+var PRODUCTS = require('./service/fixtures/products');
+var view = require('./view');
 
 var WorkshopApp = React.createClass({
   render: function() {
-    return (
-        <div>
-            <FilterableProductTable products={PRODUCTS} />
-            <Timer />
-        </div>
-    );
+    return view.main(PRODUCTS);
   }
 });
 
