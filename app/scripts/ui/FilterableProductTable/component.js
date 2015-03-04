@@ -4,6 +4,12 @@ var React = require('react');
 var view = require('./view');
 
 var FilterableProductTable = React.createClass({
+  handleUserInput: function(filterText, inStockOnly) {
+    this.setState({
+      filterText: filterText,
+      inStockOnly: inStockOnly
+    });
+  },
   getInitialState: function() {
     return {
       filterText: '',
@@ -11,7 +17,7 @@ var FilterableProductTable = React.createClass({
     };
   },
   render: function() {
-    return view(this.props, this.state);
+    return view(this);
   }
 });
 
