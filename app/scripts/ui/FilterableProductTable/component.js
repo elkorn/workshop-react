@@ -4,9 +4,15 @@ var React = require('react');
 var view = require('./view');
 
 var FilterableProductTable = React.createClass({
-    render: function() {
-        return view(this.props);
-    }
+  getInitialState: function() {
+    return {
+      filterText: '',
+      inStockOnly: false
+    };
+  },
+  render: function() {
+    return view(this.props, this.state);
+  }
 });
 
 module.exports = FilterableProductTable;

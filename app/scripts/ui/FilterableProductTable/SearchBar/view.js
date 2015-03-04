@@ -1,13 +1,12 @@
 'use strict';
 
-module.exports = function render() {
+exports.main = function render(component) {
     return (
         <form>
-            <input type="text" placeholder="Search..." />
+            <input type="text" placeholder="Search..." value={component.props.filterText} />
             <p>
-                <input type="checkbox" />
-                {' '}
-                Only show products in stock
+                <input id="inStockOnly" type="checkbox" value={component.props.inStockOnly}/>
+                <label htmlFor="inStockOnly">Only show products in stock</label>
             </p>
         </form>
     );

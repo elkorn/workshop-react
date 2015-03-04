@@ -3,11 +3,18 @@
 var SearchBar = require('./SearchBar/component');
 var ProductTable = require('./ProductTable/component');
 
-module.exports = function(props) {
+module.exports = function(props, state) {
     return (
 <div>
-    <SearchBar />
-    <ProductTable products={props.products} />
+    <SearchBar
+      filterText={state.filterText}
+      inStockOnly={state.inStockOnly}
+    />
+    <ProductTable
+      products={props.products}
+      filterText={state.filterText}
+      inStockOnly={state.inStockOnly}
+    />
 </div>
     );
 };
