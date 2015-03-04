@@ -17,7 +17,7 @@ exports.productRow = function(product) {
 
 exports.main =function(rows) {
         return (
-            <table>
+            <table className="table">
                 <thead>
                     <tr>
                         <th>Name</th>
