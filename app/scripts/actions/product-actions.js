@@ -20,7 +20,6 @@ var ProductActions = {
   },
 
   // WORKSHOP-TODO: You have to create an action that informs the dispatcher that a product is to be deleted. If you don't know where to start here, see how the app/scripts/stores/product-store.js works.
-
 };
 
 module.exports = ProductActions;
