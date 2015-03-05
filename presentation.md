@@ -3,6 +3,7 @@ author:
   name: Korneliusz Caputa
   twitter: elkornel
   url: http://github.com/elkorn
+style: presentation.css
 output: basic.html
 controls: true
 
@@ -264,7 +265,7 @@ Nothing to do! The changes are propagated to `props` automagically.
 Now, the application reacts to the initial state values (*one-way data flow*)- try setting something in `getInitialState`.
 
 ---
-# Step 4: Reacting to input
+### Step 4: Reacting to input
 
 (plz `git checkout step-3`)
 
@@ -331,3 +332,27 @@ Which is implemented like so:
     });
 
 And from here all state changes are propagated downwards by means of the previous data flow.
+
+--
+# Flux
+
+--
+### The one video to rule them all
+I strongly encourage everybody to watch this after this presentation, or anytime today:
+
+<center>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/nYkdrAPrdcw?list=PLb0IAmt7-GS188xDYE-u1ShQmFFGbrk0v" frameborder="0" allowfullscreen></iframe>
+</center>
+
+It explains the motivation behind Flux.
+
+--
+### How is Flux different from MVC
+
+Flux is a specific *concept* of unidirectional data flow.
+
+When a user interacts with a React **view**, it propagates an **action** through a central **dispatcher** to various **stores**.
+
+--
+### How does Flux flow  look like?
+![Flux data flow](https://facebook.github.io/flux/img/flux-simple-f8-diagram-with-client-action-1300w.png)
