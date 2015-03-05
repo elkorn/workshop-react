@@ -90,6 +90,8 @@ var ProductStore = assign({}, EventEmitter.prototype, {
         }
 
         break;
+
+      // WORKSHOP-TODO: You have to handle an action that deletes a product. There is a constant defined for it. HINT: Look at the `destroy` function signature.
     }
 
     return true; // No errors. Needed by promise in Dispatcher.

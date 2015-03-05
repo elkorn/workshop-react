@@ -22,6 +22,7 @@ exports.main =function(rows) {
                     <tr>
                         <th>Name</th>
                         <th>Price</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>{rows}</tbody>
