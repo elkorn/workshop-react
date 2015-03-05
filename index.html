@@ -1,0 +1,944 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>ReactJS + Flux</title>
+  <style type="text/css">
+    body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #222;
+  background-color: #f7f7f7;
+  font-size: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+}
+
+.slide-content {
+  width: 800px;
+  height: 600px;
+  overflow: hidden;
+  margin: 80px auto 0 auto;
+  padding: 30px;
+
+  font-weight: 200;
+  font-size: 200%;
+  line-height: 1.375;
+}
+
+.controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.arrow {
+  width: 0; height: 0;
+  border: 30px solid #333;
+  float: left;
+  margin-right: 30px;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.prev {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+
+  border-left-width: 0;
+  border-right-width: 50px;
+}
+
+.next {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+
+  border-left-width: 50px;
+  border-right-width: 0;
+}
+
+.prev:hover {
+  border-right-color: #888;
+  cursor: pointer;
+}
+
+.next:hover {
+  border-left-color: #888;
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 300%;
+  line-height: 1.2;
+  text-align: center;
+  margin: 170px 0 0;
+}
+
+h2 {
+  font-size: 100%;
+  line-height: 1.2;
+  margin: 5px 0;
+  text-align: center;
+  font-weight: 200;
+}
+
+h3 {
+  font-size: 140%;
+  line-height: 1.2;
+  border-bottom: 1px solid #aaa;
+  margin: 0;
+  padding-bottom: 15px;
+}
+
+ul {
+  padding: 20px 0 0 60px;
+  font-weight: 200;
+  line-height: 1.375;
+}
+
+.author h1 {
+  font-size: 170%;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.author h3 {
+  font-weight: 100;
+  text-align: center;
+  font-size: 95%;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  color: #44a4dd;
+}
+
+a:hover {
+  color: #66b5ff;
+}
+
+pre {
+  font-size: 60%;
+  line-height: 1.3;
+}
+
+.progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 3px;
+  background-color: #b4b4b4;
+
+  -webkit-transition: width 0.05s ease-out;
+  -moz-transition: width 0.05s ease-out;
+  -o-transition: width 0.05s ease-out;
+  transition: width 0.05s ease-out;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 850px) {
+
+  body {
+    font-size: 70%;
+  }
+
+  .slide-content {
+    width: auto;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  h1 {
+    margin-top: 120px;
+  }
+
+  .prev, .prev:hover {
+    border-right-color: rgba(135, 135, 135, 0.5);
+  }
+
+  .next, .next:hover {
+    border-left-color: rgba(135, 135, 135, 0.5);
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 50%;
+    overflow: hidden;
+  }
+
+  .slide-content {
+    padding: 10px;
+    margin-top: 10px;
+    height: 340px;
+  }
+
+  h1 {
+    margin-top: 50px;
+  }
+
+  ul {
+    padding-left: 25px;
+  }
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+  }
+
+  @page {
+    size: letter;
+  }
+
+  .hidden {
+    display: inline;
+  }
+
+  html {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  body {
+    margin: 0 auto !important;
+    border: 0;
+    padding: 0;
+    float: none !important;
+    overflow: visible;
+    background: none !important;
+    font-size: 52%;
+  }
+
+  .progress, .controls {
+    display: none;
+  }
+
+  .slide {
+    position: static;
+  }
+
+  .slide-content {
+    border: 1px solid #222;
+    margin-top: 0;
+    margin-bottom: 40px;
+    height: 3.5in;
+    overflow: visible;
+  }
+
+  .slide:nth-child(even) {
+    /* 2 slides per page */
+    page-break-before: always;
+  }
+}
+
+/*
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+*/
+
+code, pre {
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  overflow: auto;
+  padding: 6px 10px;
+}
+
+code {
+  padding: 0 5px;
+}
+
+pre>code {
+  margin: 0; padding: 0;
+  border: none;
+  background: transparent;
+}
+
+pre .comment,
+pre .template_comment,
+pre .diff .header,
+pre .javadoc {
+  color: #998;
+  font-style: italic
+}
+
+pre .keyword,
+pre .css .rule .keyword,
+pre .winutils,
+pre .javascript .title,
+pre .nginx .title,
+pre .subst,
+pre .request,
+pre .status {
+  color: #333;
+  font-weight: bold
+}
+
+pre .number,
+pre .hexcolor,
+pre .ruby .constant {
+  color: #099;
+}
+
+pre .string,
+pre .tag .value,
+pre .phpdoc,
+pre .tex .formula {
+  color: #d14
+}
+
+pre .title,
+pre .id {
+  color: #900;
+  font-weight: bold
+}
+
+pre .javascript .title,
+pre .lisp .title,
+pre .clojure .title,
+pre .subst {
+  font-weight: normal
+}
+
+pre .class .title,
+pre .haskell .type,
+pre .vhdl .literal,
+pre .tex .command {
+  color: #458;
+  font-weight: bold
+}
+
+pre .tag,
+pre .tag .title,
+pre .rules .property,
+pre .django .tag .keyword {
+  color: #000080;
+  font-weight: normal
+}
+
+pre .attribute,
+pre .variable,
+pre .lisp .body {
+  color: #008080
+}
+
+pre .regexp {
+  color: #009926
+}
+
+pre .class {
+  color: #458;
+  font-weight: bold
+}
+
+pre .symbol,
+pre .ruby .symbol .string,
+pre .lisp .keyword,
+pre .tex .special,
+pre .prompt {
+  color: #990073
+}
+
+pre .built_in,
+pre .lisp .title,
+pre .clojure .built_in {
+  color: #0086b3
+}
+
+pre .preprocessor,
+pre .pi,
+pre .doctype,
+pre .shebang,
+pre .cdata {
+  color: #999;
+  font-weight: bold
+}
+
+pre .deletion {
+  background: #fdd
+}
+
+pre .addition {
+  background: #dfd
+}
+
+pre .diff .change {
+  background: #0086b3
+}
+
+pre .chunk {
+  color: #aaa
+}
+
+.slide-content {
+  overflow: visible;
+}
+
+#slide-38 .slide-content {
+  text-align: center;
+  width: 100%;
+}
+
+#slide-38 h3 {
+  margin: auto;
+  width: 800px;
+}
+
+code, pre {
+  border: 0;
+  font-size: xx-large;
+  overflow: visible;
+}
+
+
+  </style>
+</head>
+<body>
+    <div class="progress">
+    <div class="progress-bar"></div>
+  </div>
+
+  <div class="slide" id="slide-1">
+    <section class="slide-content"><h1 id="react-js-flux">React.js + Flux</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-2">
+    <section class="slide-content"><h3 id="what-is-react-">What is React?</h3>
+<p>UI library by Facebook.</p>
+<p>Key features: virtual DOM and component orientation.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-3">
+    <section class="slide-content"><h3 id="virtual-dom">Virtual DOM</h3>
+<p>Main use case: alternative to standard DOM manipulation.</p>
+<p>&quot;Intelligent&quot; diffing algorithm.</p>
+<p>Component&#39;s markup is re-rendered partially, according to state updates.</p>
+<p>This is <em>not</em> shadow DOM.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-4">
+    <section class="slide-content"><h3 id="components">Components</h3>
+<p>React itself is only a view rendering library.</p>
+<p>An application is comprised of building blocks, each of which encapsulates some data and rendering logic.</p>
+<p>Components encourage good design by separation of concerns.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-5">
+    <section class="slide-content"><h3 id="thinking-in-react">Thinking in React</h3>
+<p>This part is mostly based on <a href="http://facebook.github.io/react/blog/2013/11/05/thinking-in-react.html">this article</a>.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-6">
+    <section class="slide-content"><h3 id="the-application">The application</h3>
+<p>We are going to build a simple view as shown here:</p>
+<center>
+<img src="http://facebook.github.io/react/img/blog/thinking-in-react-mock.png" alt="Base view">
+</center></section>
+  </div>
+  <div class="slide hidden" id="slide-7">
+    <section class="slide-content"><h3 id="step-0-identify-components">Step 0: Identify components</h3>
+<p>To achieve idiomatic React app structure, we need to think solely in terms of components.</p>
+<p>Components should naturally map to data as a visual representation.</p>
+<p>The <em>Single Responsibility Principle</em> is key.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-8">
+    <section class="slide-content"><h3 id="step-0-identify-components">Step 0: Identify components</h3>
+<p>What components can you identify?</p>
+<center>
+<img src="http://facebook.github.io/react/img/blog/thinking-in-react-mock.png" alt="Base view">
+</center></section>
+  </div>
+  <div class="slide hidden" id="slide-9">
+    <section class="slide-content"><h3 id="step-0-identify-components">Step 0: Identify components</h3>
+<p>We will go with the following :</p>
+<center>
+<img src="http://facebook.github.io/react/img/blog/thinking-in-react-components.png" alt="Components">
+</center></section>
+  </div>
+  <div class="slide hidden" id="slide-10">
+    <section class="slide-content"><h3 id="step-0-identify-components">Step 0: Identify components</h3>
+<p>The structure will look like this:</p>
+<ul>
+<li><code>FilterableProductTable</code><ul>
+<li><code>SearchBar</code></li>
+<li><code>ProductTable</code><ul>
+<li><code>ProductRow</code></li>
+<li><code>CategoryRow</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-11">
+    <section class="slide-content"><h3 id="step-1-build-a-static-structure">Step 1: Build a static structure</h3>
+<center>
+(plz <code>git checkout static-app</code>)
+</center></section>
+  </div>
+  <div class="slide hidden" id="slide-12">
+    <section class="slide-content"><h3 id="step-1-build-a-static-structure">Step 1: Build a static structure</h3>
+<p>To have a living prototype for the application, it&#39;s recommended to encode it as a structure of static React components.</p>
+<p>Static doesn&#39;t mean without JS. ;)
+Only that we will not handle any user input.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-13">
+    <section class="slide-content"><h3 id="a-basic-react-component">A basic React component</h3>
+<pre><code>var React = require(&#39;react&#39;);
+var view = require(&#39;./view&#39;);
+var SearchBar = React.createClass({
+  render: function() {
+    return view.main(this);
+  }
+});
+
+module.exports = SearchBar;</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-14">
+    <section class="slide-content"><h3 id="a-basic-react-component-view">A basic React component - view</h3>
+<pre><code>&lt;form&gt;
+    &lt;input
+      type=&quot;text&quot;
+      placeholder=&quot;Search...&quot;
+      value={component.props.filterText}
+    /&gt;
+    &lt;p&gt;
+        &lt;input
+          id=&quot;inStockOnly&quot;
+          type=&quot;checkbox&quot;
+          value={component.props.inStockOnly}
+        /&gt;
+        &lt;label htmlFor=&quot;inStockOnly&quot;&gt;
+          Only show products in stock
+        &lt;/label&gt;
+    &lt;/p&gt;
+&lt;/form&gt;</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-15">
+    <section class="slide-content"><h3 id="a-basic-react-component">A basic React component</h3>
+<p>To use the <code>SearchBar</code>s  <code>props</code> in a parent component:</p>
+<pre><code>&lt;SearchBar
+  filterText={...}
+  inStockOnly={...}
+/&gt;</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-16">
+    <section class="slide-content"><h3 id="run-the-static-app-">Run the static app :)</h3>
+<pre><code>vagrant up &amp;&amp; vagrant ssh
+cd /vagrant
+gulp watch</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-17">
+    <section class="slide-content"><h3 id="step-2-introducing-some-state">Step 2: Introducing some state</h3>
+<center>
+(plz <code>git checkout introducing-state</code>)
+</center></section>
+  </div>
+  <div class="slide hidden" id="slide-18">
+    <section class="slide-content"><h3 id="step-2-introducing-some-state">Step 2: Introducing some state</h3>
+<p>By state we mean React&#39;s specific notion of <code>state</code>.</p>
+<p><code>state</code> basically encapsulates data that changes over time.</p>
+<p>As it is watchable, <code>state</code> has to be used with utmost care.</p>
+<p>There are actually a few guidelines to determine when to use <code>state</code>.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-19">
+    <section class="slide-content"><h3 id="when-should-state-be-used-">When should state be used?</h3>
+<p>You can put data in <code>state</code> if it fulfills these criteria:</p>
+<ul>
+<li>It is not passed from a parent via <code>props</code>.</li>
+<li>It changes over time.</li>
+<li>It is not computed from any other <code>state</code> or <code>props</code> in the component.</li>
+</ul>
+<p>In short: <em>keep state to a minimum</em>, ideally push it down to a single point in a given part of the app.</p>
+</section>
+  </div>
+  <div class="slide hidden  " id="slide-20">
+    <section class="slide-content"><h3 id="what-should-our-app-s-state-consist-of-">What should our app&#39;s state consist of?</h3>
+<center>
+<img src="http://facebook.github.io/react/img/blog/thinking-in-react-components.png" alt="components">
+</center></section>
+  </div>
+  <div class="slide hidden  " id="slide-21">
+    <section class="slide-content"><h3 id="what-should-our-app-s-state-consist-of-">What should our app&#39;s state consist of?</h3>
+<ul>
+<li>Search text.</li>
+<li>Checkbox value.</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-22">
+    <section class="slide-content"><h3 id="step-3-state-ownership">Step 3: State ownership</h3>
+<p>The next thing to do is to decide which component will <em>own</em> the state.</p>
+<p>This is also important enough to have some guidelines.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-23">
+    <section class="slide-content"><h3 id="step-3-state-ownership">Step 3: State ownership</h3>
+<ul>
+<li>See which components render based on that <code>state</code>.</li>
+<li>Find a common ancestor - it or another component higher up should own the <code>state</code>.</li>
+<li>If there is no common ancestor - introduce a new component whose sole purpose is to handle the <code>state</code>.</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-24">
+    <section class="slide-content"><h3 id="who-should-own-the-state-">Who should own the state?</h3>
+<center>
+<img src="http://facebook.github.io/react/img/blog/thinking-in-react-components.png" alt="components">
+</center></section>
+  </div>
+  <div class="slide hidden -" id="slide-25">
+    <section class="slide-content"><h3 id="adding-state-handling-to-the-components">Adding state handling to the components</h3>
+<p>It&#39;s best to see the source code diff, but following are the more salient bits based on <code>SearchBar</code>.</p>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-26">
+    <section class="slide-content"><h3 id="adding-state-handling-to-the-components">Adding state handling to the components</h3>
+<p>In the main component&#39;s view:</p>
+<pre><code>&lt;SearchBar
+  filterText={component.state.filterText}
+  inStockOnly={component.state.inStockOnly}
+/&gt;</code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-27">
+    <section class="slide-content"><h3 id="adding-state-handling-to-the-components">Adding state handling to the components</h3>
+<p>In the main component:</p>
+<pre><code>var FilterableProductTable = React.createClass({
+  getInitialState: function() {
+    return {
+      filterText: &#39;&#39;,
+      inStockOnly: false
+    };
+  },
+  render: function() {
+    return view(this);
+  }
+});</code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-28">
+    <section class="slide-content"><h3 id="adding-state-handling-to-the-components">Adding state handling to the components</h3>
+<p>In the <code>SearchBar</code> itself:</p>
+<p>Nothing to do! The changes are propagated to <code>props</code> automagically.</p>
+<p>Now, the application reacts to the initial state values (<em>one-way data flow</em>)- try setting something in <code>getInitialState</code>.</p>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-29">
+    <section class="slide-content"><h3 id="step-4-reacting-to-input">Step 4: Reacting to input</h3>
+<center>
+(plz <code>git checkout step-3</code>)
+</center></section>
+  </div>
+  <div class="slide hidden -" id="slide-30">
+    <section class="slide-content"><h3 id="step-4-reacting-to-input">Step 4: Reacting to input</h3>
+<p>The last thing to do is handle <em>inverse</em> data flow- that is, from bottom to top of the hierarchy.</p>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-31">
+    <section class="slide-content"><h3 id="step-4-reacting-to-input">Step 4: Reacting to input</h3>
+<p>First, we define a standard event handler for the <code>SearchBar</code>:</p>
+<pre><code>&lt;input
+  type=&quot;text&quot;
+  placeholder=&quot;Search...&quot;
+  onChange={component.handleChange}
+  value={component.props.filterText}
+  ref=&quot;filterTextInput&quot;
+/&gt;</code></pre>
+<p>Also, note the <code>ref</code> attribute - it&#39;s needed to access the DOM.</p>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-32">
+    <section class="slide-content"><h3 id="step-4-reacting-to-input">Step 4: Reacting to input</h3>
+<p>The <code>SearchBar</code> should propagate its value changes upwards:</p>
+<pre><code>var SearchBar = React.createClass({
+  handleChange: function() {
+    this.props.onUserInput(
+      this.refs.filterTextInput.getDOMNode().value,
+      this.refs.inStockOnlyInput.getDOMNode().checked
+    );
+  },
+  render: function() {
+    return view.main(this);
+  }
+});</code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-33">
+    <section class="slide-content"><h3 id="step-4-reacting-to-input">Step 4: Reacting to input</h3>
+<p>Finally, we need to define what to do with that information in the <code>state</code> owner:</p>
+<pre><code>&lt;SearchBar
+  filterText={component.state.filterText}
+  inStockOnly={component.state.inStockOnly}
+  onUserInput={component.handleUserInput}
+/&gt;</code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-34">
+    <section class="slide-content"><h3 id="step-4-reacting-to-input">Step 4: Reacting to input</h3>
+<p>Which is implemented like so:</p>
+<pre><code>var FilterableProductTable = React.createClass({
+  handleUserInput: function(filterText, inStockOnly) {
+    this.setState({
+      filterText: filterText,
+      inStockOnly: inStockOnly
+    });
+  },
+  /* ... */
+});</code></pre>
+<p>And from here all state changes are propagated downwards by means of the previous data flow.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-35">
+    <section class="slide-content"><h1 id="flux">Flux</h1>
+<center>
+(plz <code>git checkout exercise</code>)
+</center></section>
+  </div>
+  <div class="slide hidden" id="slide-36">
+    <section class="slide-content"><h3 id="the-one-video-to-rule-them-all">The one video to rule them all</h3>
+<p>I strongly encourage everybody to watch this after this presentation, or anytime today:</p>
+<center>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/nYkdrAPrdcw?list=PLb0IAmt7-GS188xDYE-u1ShQmFFGbrk0v" frameborder="0" allowfullscreen></iframe>
+</center>
+
+<p>It explains the motivation behind Flux.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-37">
+    <section class="slide-content"><h3 id="how-is-flux-different-from-mvc">How is Flux different from MVC</h3>
+<p>Flux is a specific <em>concept</em> of unidirectional data flow.</p>
+<p>When a user interacts with a React <strong>view</strong>, it propagates an <strong>action</strong> through a central <strong>dispatcher</strong> to various <strong>stores</strong>.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-38">
+    <section class="slide-content"><h3 id="how-does-flux-flow-look-like-">How does Flux flow  look like?</h3>
+<p><img src="https://facebook.github.io/flux/img/flux-simple-f8-diagram-with-client-action-1300w.png" alt="Flux data flow"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-39">
+    <section class="slide-content"><h3 id="how-does-flux-flow-work-">How does Flux flow work?</h3>
+<p>Example:</p>
+<p>The User clicks a button.</p>
+<p>The button&#39;s <code>onClick</code> handler is called, which is bound to a component&#39;s API method.</p>
+<p>Within that method, an <code>action</code> is created.</p>
+<p>One of the steps of constructing an <code>action</code> is informing the <code>dispatcher</code> about what happened.</p>
+<p>A <code>store</code> which registered itself to the <code>dispatcher</code> gets notified about the <code>action</code> having happened.</p>
+<p>The <code>store</code> does some data processing and informs all observing components that a change has occured.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-40">
+    <section class="slide-content"><h1 id="nuff-said-">NUFF SAID!</h1>
+<center>
+<img src="http://www.rankopedia.com/CandidatePix/165290.gif" alt="Nuff Said">
+
+</center></section>
+  </div>
+  <div class="slide hidden" id="slide-41">
+    <section class="slide-content"><h3 id="getting-our-hands-dirty">Getting our hands dirty</h3>
+<p>It&#39;s easier to understand Flux by looking at an example implementation, such as what is provided in the code.</p>
+<p>There is a task for you to perform - try to implement the functionality of deleting a product.</p>
+<p>To find clues, grep for <code>WORKSHOP-TODO</code>.</p>
+<p>Don&#39;t hestitate to ask in case of <em>any</em> problems - the exercise should not pose a significant challenge overall.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-42">
+    <section class="slide-content"><div class="author">
+  <h1 class="name">Korneliusz Caputa</h1>
+    <h3 class="twitter">
+      <a href="http://twitter.com/@elkornel">@elkornel</a>
+    </h3>
+    <h3 class="url">
+      <a href="http://github.com/elkorn">http://github.com/elkorn</a>
+    </h3>
+</div>
+</section>
+  </div>
+
+  <div class="controls">
+    <div class="arrow prev"></div>
+    <div class="arrow next"></div>
+  </div>
+
+
+  <script type="text/javascript">
+    /**
+ * Returns the current page number of the presentation.
+ */
+function currentPosition() {
+  return parseInt(document.querySelector('.slide:not(.hidden)').id.slice(6));
+}
+
+
+/**
+ * Navigates forward n pages
+ * If n is negative, we will navigate in reverse
+ */
+function navigate(n) {
+  var position = currentPosition();
+  var numSlides = document.getElementsByClassName('slide').length;
+
+  /* Positions are 1-indexed, so we need to add and subtract 1 */
+  var nextPosition = (position - 1 + n) % numSlides + 1;
+
+  /* Normalize nextPosition in-case of a negative modulo result */
+  nextPosition = (nextPosition - 1 + numSlides) % numSlides + 1;
+
+  document.getElementById('slide-' + position).classList.add('hidden');
+  document.getElementById('slide-' + nextPosition).classList.remove('hidden');
+
+  updateProgress();
+  updateURL();
+  updateTabIndex();
+}
+
+
+/**
+ * Updates the current URL to include a hashtag of the current page number.
+ */
+function updateURL() {
+  window.history.replaceState({} , null, '#' + currentPosition());
+}
+
+
+/**
+ * Sets the progress indicator.
+ */
+function updateProgress() {
+  var progressBar = document.querySelector('.progress-bar');
+
+  if (progressBar !== null) {
+    var numSlides = document.getElementsByClassName('slide').length;
+    var position = currentPosition() - 1;
+    var percent = (numSlides === 1) ? 100 : 100 * position / (numSlides - 1);
+    progressBar.style.width = percent.toString() + '%';
+  }
+}
+
+
+/**
+ * Removes tabindex property from all links on the current slide, sets
+ * tabindex = -1 for all links on other slides. Prevents slides from appearing
+ * out of control.
+ */
+function updateTabIndex() {
+  var allLinks = document.querySelectorAll('.slide a');
+  var position = currentPosition();
+  var currentPageLinks = document.getElementById('slide-' + position).querySelectorAll('a');
+  var i;
+
+  for (i = 0; i < allLinks.length; i++) {
+    allLinks[i].setAttribute('tabindex', -1);
+  }
+
+  for (i = 0; i < currentPageLinks.length; i++) {
+    currentPageLinks[i].removeAttribute('tabindex');
+  }
+}
+
+/**
+ * Determines whether or not we are currently in full screen mode
+ */
+function isFullScreen() {
+  return document.fullscreenElement ||
+         document.mozFullScreenElement ||
+         document.webkitFullscreenElement ||
+         document.msFullscreenElement;
+}
+
+/**
+ * Toggle fullScreen mode on document element.
+ * Works on chrome (>= 15), firefox (>= 9), ie (>= 11), opera(>= 12.1), safari (>= 5).
+ */
+function toggleFullScreen() {
+  /* Convenient renames */
+  var docElem = document.documentElement;
+  var doc = document;
+
+  docElem.requestFullscreen =
+      docElem.requestFullscreen ||
+      docElem.msRequestFullscreen ||
+      docElem.mozRequestFullScreen ||
+      docElem.webkitRequestFullscreen.bind(docElem, Element.ALLOW_KEYBOARD_INPUT);
+
+  doc.exitFullscreen =
+      doc.exitFullscreen ||
+      doc.msExitFullscreen ||
+      doc.mozCancelFullScreen ||
+      doc.webkitExitFullscreen;
+
+  isFullScreen() ? doc.exitFullscreen() : docElem.requestFullscreen();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Update the tabindex to prevent weird slide transitioning
+  updateTabIndex();
+
+  // If the location hash specifies a page number, go to it.
+  var page = window.location.hash.slice(1);
+  if (page) {
+    navigate(parseInt(page) - 1);
+  }
+
+  document.onkeydown = function (e) {
+    var kc = e.keyCode;
+
+    // left, down, H, J, backspace, PgUp - BACK
+    // up, right, K, L, space, PgDn - FORWARD
+    // enter - FULLSCREEN
+    if (kc === 37 || kc === 40 || kc === 8 || kc === 72 || kc === 74 || kc === 33) {
+      navigate(-1);
+    } else if (kc === 38 || kc === 39 || kc === 32 || kc === 75 || kc === 76 || kc === 34) {
+      navigate(1);
+    } else if (kc === 13) {
+      toggleFullScreen();
+    }
+  };
+
+  if (document.querySelector('.next') && document.querySelector('.prev')) {
+    document.querySelector('.next').onclick = function (e) {
+      e.preventDefault();
+      navigate(1);
+    };
+
+    document.querySelector('.prev').onclick = function (e) {
+      e.preventDefault();
+      navigate(-1);
+    };
+  }
+});
+
+
+  </script>
+</body>
+</html>

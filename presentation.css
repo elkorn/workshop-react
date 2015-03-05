@@ -1,0 +1,20 @@
+.slide-content {
+  overflow: visible;
+}
+
+#slide-38 .slide-content {
+  text-align: center;
+  width: 100%;
+}
+
+#slide-38 h3 {
+  margin: auto;
+  width: 800px;
+}
+
+code, pre {
+  border: 0;
+  font-size: xx-large;
+  overflow: visible;
+}
+
