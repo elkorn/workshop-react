@@ -9,8 +9,10 @@ var React = window.React = require('react'),
 var WorkshopApp = React.createClass({
   render: function() {
     return (
-        <FilterableProductTable products={PRODUCTS} />
-        <Timer />
+        <div>
+            <FilterableProductTable products={PRODUCTS} />
+            <Timer />
+        </div>
     );
   }
 });
