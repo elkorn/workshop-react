@@ -4,7 +4,7 @@ author:
   twitter: elkornel
   url: http://github.com/elkorn
 style: presentation.css
-output: basic.html
+output: index.html
 controls: true
 
 --
@@ -100,7 +100,12 @@ The structure will look like this:
 --
 ### Step 1: Build a static structure
 
-(plz `git checkout step-1`)
+<center>
+(plz `git checkout static-app`)
+</center>
+
+--
+### Step 1: Build a static structure
 
 To have a living prototype for the application, it's recommended to encode it as a structure of static React components.
 
@@ -123,23 +128,23 @@ Only that we will not handle any user input.
 --
 ### A basic React component - view
 
-        <form>
+    <form>
+        <input
+          type="text"
+          placeholder="Search..."
+          value={component.props.filterText}
+        />
+        <p>
             <input
-              type="text"
-              placeholder="Search..."
-              value={component.props.filterText}
+              id="inStockOnly"
+              type="checkbox"
+              value={component.props.inStockOnly}
             />
-            <p>
-                <input
-                  id="inStockOnly"
-                  type="checkbox"
-                  value={component.props.inStockOnly}
-                />
-                <label htmlFor="inStockOnly">
-                  Only show products in stock
-                </label>
-            </p>
-        </form>
+            <label htmlFor="inStockOnly">
+              Only show products in stock
+            </label>
+        </p>
+    </form>
 
 --
 ### A basic React component
@@ -162,7 +167,9 @@ To use the `SearchBar`s  `props` in a parent component:
 --
 ### Step 2: Introducing some state
 
-(plz `git checkout step-2`)
+<center>
+(plz `git checkout introducing-state`)
+</center>
 
 --
 ### Step 2: Introducing some state
@@ -184,10 +191,7 @@ You can put data in `state` if it fulfills these criteria:
 - It changes over time.
 - It is not computed from any other `state` or `props` in the component.
 
---
-### When should state be used?
-
-Shortly: _keep state to a minimum_, ideally push it down to a single point in a given part of the app.
+In short: _keep state to a minimum_, ideally push it down to a single point in a given part of the app.
 
 -- 
 ### What should our app's state consist of?
@@ -267,7 +271,9 @@ Now, the application reacts to the initial state values (*one-way data flow*)- t
 ---
 ### Step 4: Reacting to input
 
+<center>
 (plz `git checkout step-3`)
+</center>
 
 ---
 ### Step 4: Reacting to input
@@ -336,6 +342,10 @@ And from here all state changes are propagated downwards by means of the previou
 --
 # Flux
 
+<center>
+(plz `git checkout exercise`)
+</center>
+
 --
 ### The one video to rule them all
 I strongly encourage everybody to watch this after this presentation, or anytime today:
@@ -356,3 +366,39 @@ When a user interacts with a React **view**, it propagates an **action** through
 --
 ### How does Flux flow  look like?
 ![Flux data flow](https://facebook.github.io/flux/img/flux-simple-f8-diagram-with-client-action-1300w.png)
+
+--
+### How does Flux flow work?
+
+Example:
+
+The User clicks a button.
+
+The button's `onClick` handler is called, which is bound to a component's API method.
+
+Within that method, an `action` is created.
+
+One of the steps of constructing an `action` is informing the `dispatcher` about what happened.
+
+A `store` which registered itself to the `dispatcher` gets notified about the `action` having happened.
+
+The `store` does some data processing and informs all observing components that a change has occured.
+
+--
+# NUFF SAID!
+
+<center>
+![Nuff Said](http://www.rankopedia.com/CandidatePix/165290.gif)
+
+</center>
+
+--
+### Getting our hands dirty
+
+It's easier to understand Flux by looking at an example implementation, such as what is provided in the code.
+
+There is a task for you to perform - try to implement the functionality of deleting a product.
+
+To find clues, grep for `WORKSHOP-TODO`.
+
+Don't hestitate to ask in case of *any* problems - the exercise should not pose a significant challenge overall.
