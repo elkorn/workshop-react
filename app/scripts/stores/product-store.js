@@ -92,6 +92,12 @@ var ProductStore = assign({}, EventEmitter.prototype, {
         break;
 
       // WORKSHOP-TODO: You have to handle an action that deletes a product. There is a constant defined for it. HINT: Look at the `destroy` function signature.
+      case ProductConstants.PRODUCT_DESTROY:
+        if(action.id !== '') {
+          destroy(action.id);
+
+          ProductStore.emitChange();
+        }
     }
 
     return true; // No errors. Needed by promise in Dispatcher.
