@@ -25,8 +25,14 @@ var ProductActions = {
      actionType: ProductConstants.PRODUCT_DESTROY,
      id: id
    });
-  }
+  },
 
+  receive: function(product) {
+    AppDispatcher.handleServerAction({
+      actionType: ProductConstants.PRODUCT_CREATE,
+      product: product
+    });
+  }
 };
 
 module.exports = ProductActions;
