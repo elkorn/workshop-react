@@ -42,5 +42,9 @@
   },
   "browserify-shim": {
     "jquery": "$"
+  },
+  "dependencies": {
+    "es6-promise": "^2.0.1",
+    "object-assign": "^2.0.0"
   }
 }
