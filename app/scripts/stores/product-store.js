@@ -3,13 +3,12 @@
 var AppDispatcher = require('../dispatcher/app-dispatcher');
 var EventEmitter = require('events').EventEmitter;
 var ProductConstants = require('../constants/product-constants');
+
 var assign = require('object-assign');
 var toArray = require('../utils/to-array');
 var backend = require('./backends/firebase');
-
-var fixture = require('./fixtures/products');
-
 var CHANGE_EVENT = 'change';
+
 
 var _products = {}; // collection of product items
 var _productsArray = [];
@@ -18,15 +17,25 @@ function updateProductArray() {
     _productsArray = toArray(_products);
 }
 
+function receive(product) {
+    _products[product.id] = product;
+    updateProductArray();
+}
+
+function receiveMany(products) {
+  _products = products;
+  updateProductArray();
+}
+
 /**
  * Create a product.
  * @param {string} text The content of the product
  */
 function create(product) {
     // Using the current timestamp in place of a real id.
-    var id = Date.now().valueOf() + Math.random().toString();
+    var id = Math.random().toString() + Math.random().toString();
     var persistentProduct = {
-        id: id,
+        id: id.replace(/\./g,''),
         name: product.name,
         price: product.price,
         category: product.category,
@@ -34,14 +43,11 @@ function create(product) {
     };
 
     if (!_products[id]) {
-        backend.push(persistentProduct);
+        backend.add(persistentProduct);
     }
 
-    _products[id] = persistentProduct;
-
-    updateProductArray();
+    receive(persistentProduct);
 }
-
 
 /**
  * Delete a product.
@@ -50,12 +56,9 @@ function create(product) {
 function destroy(id) {
     // NOTE: Do not use `delete` in this way on your production apps!
     delete _products[id];
+    backend.remove(id);
     updateProductArray();
 }
-
-(function init(products) {
-    products.forEach(create);
-}(fixture));
 
 var ProductStore = assign({}, EventEmitter.prototype, {
 
@@ -105,6 +108,14 @@ var ProductStore = assign({}, EventEmitter.prototype, {
 
                     ProductStore.emitChange();
                 }
+
+                break;
+
+            case ProductConstants.PRODUCT_RECEIVE:
+                receiveMany(action.products);
+
+                ProductStore.emitChange();
+
         }
 
         return true; // No errors. Needed by promise in Dispatcher.

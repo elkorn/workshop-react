@@ -27,9 +27,16 @@ var ProductActions = {
    });
   },
 
-  receive: function(product) {
+  receive: function(products) {
     AppDispatcher.handleServerAction({
-      actionType: ProductConstants.PRODUCT_CREATE,
+      actionType: ProductConstants.PRODUCT_RECEIVE,
+      products: products
+    });
+  },
+
+  store: function(product){
+    AppDispatcher.handleServerAction({
+      actionType: ProductConstants.PRODUCT_STORE,
       product: product
     });
   }

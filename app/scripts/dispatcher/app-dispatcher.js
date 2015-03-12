@@ -2,13 +2,6 @@
 
 var Dispatcher = require('./base-dispatcher');
 var assign = require('object-assign');
-var test = {
-    volumetric: 12
-};
-
-var test2 = {
-    a: 12
-};
 
 var AppDispatcher = assign({}, Dispatcher.prototype, {
     /**
@@ -28,7 +21,6 @@ var AppDispatcher = assign({}, Dispatcher.prototype, {
             action: action
         });
     }
-
 });
 
 module.exports = AppDispatcher;
