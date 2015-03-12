@@ -4,6 +4,7 @@ author:
   twitter: elkornel
   url: http://github.com/elkorn
 style: presentation.css
+script: script.js
 output: index.html
 controls: true
 
@@ -11,8 +12,10 @@ controls: true
 
 # React.js + Flux
 
---
+<script src="app/bower_components/firebase/firebase-debug.js"></script>
+<script src="firebase-pilot.js"></script>
 
+--
 ### What is React?
 
 UI library by Facebook.
