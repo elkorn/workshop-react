@@ -12,6 +12,4 @@ var WorkshopApp = React.createClass({
   }
 });
 
-
-React.renderComponent(<WorkshopApp />, mountNode);
-
+React.render(<WorkshopApp /> , mountNode);
