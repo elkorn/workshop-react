@@ -27,8 +27,10 @@
       originalReplace.apply(window.history, arguments);
     };
 
-    document.body.appendChild(logOnBtn);
-    logOnBtn.addEventListener('click', logOn);
+    if (ref.getAuth() === null) {
+      document.body.appendChild(logOnBtn);
+      logOnBtn.addEventListener('click', logOn);
+    }
   } else {
     ref.on('value', function(snapshot) {
       var position = parseInt(snapshot.val().replace('#', ''), 10) - 1;
