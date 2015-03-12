@@ -25,7 +25,7 @@ Key features: virtual DOM and component orientation.
 
 Main use case: alternative to standard DOM manipulation.
 
-"Intelligent" diffing algorithm.
+"Intelligent" [diffing algorithm](http://facebook.github.io/react/docs/reconciliation.html).
 
 Component's markup is re-rendered partially, according to state updates.
 
@@ -272,7 +272,7 @@ Now, the application reacts to the initial state values (*one-way data flow*)- t
 ### Step 4: Reacting to input
 
 <center>
-(plz `git checkout step-3`)
+(plz `git checkout reacting-to-input`)
 </center>
 
 ---
@@ -402,3 +402,70 @@ There is a task for you to perform - try to implement the functionality of delet
 To find clues, grep for `WORKSHOP-TODO`.
 
 Don't hestitate to ask in case of *any* problems - the exercise should not pose a significant challenge overall.
+
+--
+### A few bitter words for the finish
+
+[React is a terrible idea](https://www.pandastrike.com/posts/20150311-react-bad-idea)
+
+> Internally, React depends on virtual DOM. The advantage over browser DOM is that virtual DOM nodes are relatively lightweight. (...)
+> That seems like it might, indeed, be handy. But what has that got to do with reactive programming? Or embedding markup in JavaScript?
+> Nothing. 
+
+--
+### A few bitter words for the finish
+
+[React is a terrible idea](https://www.pandastrike.com/posts/20150311-react-bad-idea)
+
+> React is not a good framework. And Web components aren't even a framework really, so much as how browsers work now. More generally, components are how pretty everything but the Web has worked for decades.
+
+--
+### A few bitter words for the finish
+
+[React is a terrible idea](https://www.pandastrike.com/posts/20150311-react-bad-idea)
+
+> Put another way, Facebook doesn't care if you use the Web, it only cares that you use Facebook. 
+
+> So why release an open source Web framework at all? Because Facebook is battling Google for engineers. 
+
+> Basically, both Google and Facebook are desperate to find a baseball cap that they can put on backwards. Angular is Google's baseball cap. React is Facebook's.
+
+-- 
+### Summary: What to do?
+
+IMHO, some of the *ideas* that React has included are very good.
+
+It's just that none of these ideas is actually inherently related to React!
+
+-- 
+### Summary: What to do?
+
+- Use pure functions and immutable data structures for performance: [immutable.js](https://github.com/facebook/immutable-js/), [mori](https://github.com/swannodette/mori.git).
+
+-- 
+### Summary: What to do?
+
+- Use pure functions and immutable data structures for performance: [immutable.js](https://github.com/facebook/immutable-js/), [mori](https://github.com/swannodette/mori.git).
+- Use a fast, lightweight [Virtual DOM implementation](http://www.reddit.com/r/javascript/comments/2jav2q/is_there_any_good_standalone_implementation_of/). (React's impl is actually [quite slow](http://vdom-benchmark.github.io/vdom-benchmark/))
+
+-- 
+### Summary: What to do?
+
+- Use pure functions and immutable data structures for performance: [immutable.js](https://github.com/facebook/immutable-js/), [mori](https://github.com/swannodette/mori.git).
+- Use a fast, lightweight [Virtual DOM implementation](http://www.reddit.com/r/javascript/comments/2jav2q/is_there_any_good_standalone_implementation_of/). (React's impl is actually [quite slow](http://vdom-benchmark.github.io/vdom-benchmark/))
+- Take heed of what Flux represents (the ideas are very close to CQRS) and think whether such an approach can be beneficial for your application. Also, check out [reflux](http://blog.krawaller.se/posts/react-js-architecture-flux-vs-reflux/) for a more concise and functional implementation. (Thanks go to Kalle for bringing this up).
+
+-- 
+### Summary: What to do?
+
+- Use pure functions and immutable data structures for performance: [immutable.js](https://github.com/facebook/immutable-js/), [mori](https://github.com/swannodette/mori.git).
+- Use a fast, lightweight [Virtual DOM implementation](http://www.reddit.com/r/javascript/comments/2jav2q/is_there_any_good_standalone_implementation_of/). (React's impl is actually [quite slow](http://vdom-benchmark.github.io/vdom-benchmark/))
+- Take heed of what Flux represents (the ideas are very close to CQRS) and think whether such an approach can be beneficial for your application. Also, check out [reflux](http://blog.krawaller.se/posts/react-js-architecture-flux-vs-reflux/) for a more concise and functional implementation. (Thanks go to Kalle for bringing this up).
+- Avoid vendor lock-in. The Open Web Platform along with Web Components is ultimately the way to go. Both React and Angular are not much more than hacks.
+
+--
+### Mobile?
+
+React Native is still pretty much an unknown.
+
+It may be a game changer when it comes out, but that we will have to see for ourselves.
