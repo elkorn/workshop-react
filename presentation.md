@@ -12,7 +12,7 @@ controls: true
 
 # React.js + Flux
 
-<script src="app/bower_components/firebase/firebase-debug.js"></script>
+<script src="app/bower_components/firebase/firebase.js"></script>
 <script src="firebase-pilot.js"></script>
 
 --
