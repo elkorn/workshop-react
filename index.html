@@ -433,7 +433,7 @@ code, pre {
   <div class="slide hidden" id="slide-3">
     <section class="slide-content"><h3 id="virtual-dom">Virtual DOM</h3>
 <p>Main use case: alternative to standard DOM manipulation.</p>
-<p>&quot;Intelligent&quot; diffing algorithm.</p>
+<p>&quot;Intelligent&quot; <a href="http://facebook.github.io/react/docs/reconciliation.html">diffing algorithm</a>.</p>
 <p>Component&#39;s markup is re-rendered partially, according to state updates.</p>
 <p>This is <em>not</em> shadow DOM.</p>
 </section>
@@ -657,7 +657,7 @@ gulp watch</code></pre>
   <div class="slide hidden -" id="slide-29">
     <section class="slide-content"><h3 id="step-4-reacting-to-input">Step 4: Reacting to input</h3>
 <center>
-(plz <code>git checkout step-3</code>)
+(plz <code>git checkout reacting-to-input</code>)
 </center></section>
   </div>
   <div class="slide hidden -" id="slide-30">
@@ -773,6 +773,80 @@ gulp watch</code></pre>
 </section>
   </div>
   <div class="slide hidden" id="slide-42">
+    <section class="slide-content"><h3 id="a-few-bitter-words-for-the-finish">A few bitter words for the finish</h3>
+<p><a href="https://www.pandastrike.com/posts/20150311-react-bad-idea">React is a terrible idea</a></p>
+<blockquote>
+<p>Internally, React depends on virtual DOM. The advantage over browser DOM is that virtual DOM nodes are relatively lightweight. (...)
+That seems like it might, indeed, be handy. But what has that got to do with reactive programming? Or embedding markup in JavaScript?
+Nothing.</p>
+</blockquote>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-43">
+    <section class="slide-content"><h3 id="a-few-bitter-words-for-the-finish">A few bitter words for the finish</h3>
+<p><a href="https://www.pandastrike.com/posts/20150311-react-bad-idea">React is a terrible idea</a></p>
+<blockquote>
+<p>React is not a good framework. And Web components aren&#39;t even a framework really, so much as how browsers work now. More generally, components are how pretty everything but the Web has worked for decades.</p>
+</blockquote>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-44">
+    <section class="slide-content"><h3 id="a-few-bitter-words-for-the-finish">A few bitter words for the finish</h3>
+<p><a href="https://www.pandastrike.com/posts/20150311-react-bad-idea">React is a terrible idea</a></p>
+<blockquote>
+<p>Put another way, Facebook doesn&#39;t care if you use the Web, it only cares that you use Facebook. </p>
+<p>So why release an open source Web framework at all? Because Facebook is battling Google for engineers. </p>
+<p>Basically, both Google and Facebook are desperate to find a baseball cap that they can put on backwards. Angular is Google&#39;s baseball cap. React is Facebook&#39;s.</p>
+</blockquote>
+</section>
+  </div>
+  <div class="slide hidden  " id="slide-45">
+    <section class="slide-content"><h3 id="summary-what-to-do-">Summary: What to do?</h3>
+<p>IMHO, some of the <em>ideas</em> that React has included are very good.</p>
+<p>It&#39;s just that none of these ideas is actually inherently related to React!</p>
+</section>
+  </div>
+  <div class="slide hidden  " id="slide-46">
+    <section class="slide-content"><h3 id="summary-what-to-do-">Summary: What to do?</h3>
+<ul>
+<li>Use pure functions and immutable data structures for performance: <a href="https://github.com/facebook/immutable-js/">immutable.js</a>, <a href="https://github.com/swannodette/mori.git">mori</a>.</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden  " id="slide-47">
+    <section class="slide-content"><h3 id="summary-what-to-do-">Summary: What to do?</h3>
+<ul>
+<li>Use pure functions and immutable data structures for performance: <a href="https://github.com/facebook/immutable-js/">immutable.js</a>, <a href="https://github.com/swannodette/mori.git">mori</a>.</li>
+<li>Use a fast, lightweight <a href="http://www.reddit.com/r/javascript/comments/2jav2q/is_there_any_good_standalone_implementation_of/">Virtual DOM implementation</a>. (React&#39;s impl is actually <a href="http://vdom-benchmark.github.io/vdom-benchmark/">quite slow</a>)</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden  " id="slide-48">
+    <section class="slide-content"><h3 id="summary-what-to-do-">Summary: What to do?</h3>
+<ul>
+<li>Use pure functions and immutable data structures for performance: <a href="https://github.com/facebook/immutable-js/">immutable.js</a>, <a href="https://github.com/swannodette/mori.git">mori</a>.</li>
+<li>Use a fast, lightweight <a href="http://www.reddit.com/r/javascript/comments/2jav2q/is_there_any_good_standalone_implementation_of/">Virtual DOM implementation</a>. (React&#39;s impl is actually <a href="http://vdom-benchmark.github.io/vdom-benchmark/">quite slow</a>)</li>
+<li>Take heed of what Flux represents (the ideas are very close to CQRS) and think whether such an approach can be beneficial for your application. Also, check out <a href="http://blog.krawaller.se/posts/react-js-architecture-flux-vs-reflux/">reflux</a> for a more concise and functional implementation. (Thanks go to Kalle for bringing this up).</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden  " id="slide-49">
+    <section class="slide-content"><h3 id="summary-what-to-do-">Summary: What to do?</h3>
+<ul>
+<li>Use pure functions and immutable data structures for performance: <a href="https://github.com/facebook/immutable-js/">immutable.js</a>, <a href="https://github.com/swannodette/mori.git">mori</a>.</li>
+<li>Use a fast, lightweight <a href="http://www.reddit.com/r/javascript/comments/2jav2q/is_there_any_good_standalone_implementation_of/">Virtual DOM implementation</a>. (React&#39;s impl is actually <a href="http://vdom-benchmark.github.io/vdom-benchmark/">quite slow</a>)</li>
+<li>Take heed of what Flux represents (the ideas are very close to CQRS) and think whether such an approach can be beneficial for your application. Also, check out <a href="http://blog.krawaller.se/posts/react-js-architecture-flux-vs-reflux/">reflux</a> for a more concise and functional implementation. (Thanks go to Kalle for bringing this up).</li>
+<li>Avoid vendor lock-in. The Open Web Platform along with Web Components is ultimately the way to go. Both React and Angular are not much more than hacks.</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-50">
+    <section class="slide-content"><h3 id="mobile-">Mobile?</h3>
+<p>React Native is still pretty much an unknown.</p>
+<p>It may be a game changer when it comes out, but that we will have to see for ourselves.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-51">
     <section class="slide-content"><div class="author">
   <h1 class="name">Korneliusz Caputa</h1>
     <h3 class="twitter">
